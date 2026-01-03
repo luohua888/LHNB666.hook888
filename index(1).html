@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+ <html lang="zh-CN">
+ <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>落花公益端口-超级无敌至尊版</title>
+     <style>
+         * {
+             margin: 0;
+             padding: 0;
+             box-sizing: border-box;
+             font-family: 'Orbitron', 'Microsoft YaHei', sans-serif;
+         }
+         body {
+             background: #000;
+             background-image: 
+                 radial-gradient(circle at 50% 50%, #1a1a3f 0%, #000 80%),
+                 url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M0 50 L100 50 M50 0 L50 100" stroke="%2300ffff" stroke-width="0.5" opacity="0.2"/></svg>');
+             background-size: cover, 20px 20px;
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             min-height: 100vh;
+             overflow: hidden;
+         }
+         /* 核心卡片容器 */
+         .port-card {
+             width: 380px;
+             height: 780px;
+             background: rgba(0, 10, 30, 0.85);
+             border: 2px solid #00ffff;
+             border-radius: 20px;
+             padding: 25px;
+             position: relative;
+             box-shadow: 
+                 0 0 20px #00ffff,
+                 inset 0 0 30px rgba(0, 255, 255, 0.3);
+             backdrop-filter: blur(10px);
+             overflow: hidden;
+             animation: cardBreath 4s infinite alternate;
+         }
+         /* 卡片呼吸动画 */
+         @keyframes cardBreath {
+             0% { box-shadow: 0 0 20px #00ffff, inset 0 0 30px rgba(0, 255, 255, 0.3); }
+             100% { box-shadow: 0 0 35px #7928ca, inset 0 0 40px rgba(121, 40, 202, 0.4); }
+         }
+         /* 背景粒子效果 */
+         .particles {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             pointer-events: none;
+             z-index: 0;
+         }
+         /* 顶部头像区域 */
+         .avatar-section {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             margin-bottom: 20px;
+             position: relative;
+             z-index: 1;
+         }
+         .avatar {
+             width: 100px;
+             height: 100px;
+             border-radius: 50%;
+             border: 3px solid #00ffff;
+             overflow: hidden;
+             margin-bottom: 10px;
+             animation: avatarRotate 10s linear infinite;
+             box-shadow: 0 0 20px #00ffff;
+         }
+         .avatar img {
+             width: 100%;
+             height: 100%;
+             object-fit: cover;
+         }
+         @keyframes avatarRotate {
+             0% { transform: rotateY(0deg); }
+             100% { transform: rotateY(360deg); }
+          }
+         .title {
+             font-size: 28px;
+             color: #00ffff;
+             text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff;
+             margin-bottom: 5px;
+             position: relative;
+         }
+         .title::after {
+             content: '';
+             position: absolute;
+             top: 100%;
+             left: 0;
+             width: 100%;
+             height: 2px;
+             background: linear-gradient(90deg, transparent, #00ffff, transparent);
+             animation: scanLine 2s linear infinite;
+         }
+         @keyframes scanLine {
+             0% { transform: translateX(-100%); }
+             100% { transform: translateX(100%); }
+         }
+         .status-tip {
+             font-size: 14px;
+             color: #00ff9d;
+             animation: scrollText 12s linear infinite;
+             white-space: nowrap;
+             overflow: hidden;
+         }
+         @keyframes scrollText {
+             0% { transform: translateX(20%); }
+             100% { transform: translateX(-20%); }
+         }
+         /* 基础信息模块 */
+         .info-module {
+             background: rgba(0, 20, 50, 0.6);
+             border: 1px solid #00ffff;
+             border-radius: 15px;
+         padding: 20px;
+             margin-bottom: 20px;
+             position: relative;
+             z-index: 1;
+             box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+         }
+         .info-item {
+             display: flex;
+             justify-content: space-between;
+             margin-bottom: 10px;
+         }
+         .info-label {
+             color: #a0a0ff;
+             font-size: 15px;
+         }
+         .info-value {
+             color: #00ffff;
+             font-size: 15px;
+             font-weight: bold;
+         }
+         .status-excellent {
+             color: #00ff9d;
+             text-shadow: 0 0 8px #00ff9d;
+             animation: statusPulse 2s infinite alternate;
+         }
+         @keyframes statusPulse {
+             0% { opacity: 0.7; }
+             100% { opacity: 1; }
+         }
+         /* 延迟监测模块 */
+         .delay-module {
+             background: rgba(0, 20, 50, 0.6);
+             border: 1px solid #00ffff;
+             border-radius: 15px;
+             padding: 20px;
+             margin-bottom: 20px;
+             position: relative;
+             z-index: 1;
+             box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+             text-align: center;
+         }
+         .node-name {
+             color: #a0a0ff;
+             font-size: 16px;
+             margin-bottom: 15px;
+             display: flex;
+             align-items: center;
+             justify-content: center;
+             gap: 8px;
+         }
+         .flag-icon {
+             width: 24px;
+             height: 16px;
+             border-radius: 2px;
+             object-fit: cover;
+         }
+         .delay-value {
+             font-size: 40px;
+             color: #00ff9d;
+             text-shadow: 0 0 10px #00ff9d;
+             margin-bottom: 5px;
+             animation: numberFloat 1.5s infinite alternate;
+         }
+         @keyframes numberFloat {
+             0% { transform: translateY(0); }
+             100% { transform: translateY(-5px); }
+         }
+         .delay-desc {
+             color: #a0a0ff;
+             font-size: 14px;
+         }
+         /* TG频道模块 */
+         .tg-module {
+             background: rgba(0, 20, 50, 0.6);
+             border: 1px solid #00ffff;
+             border-radius: 15px;
+             padding: 20px;
+             margin-bottom: 20px;
+             position: relative;
+             z-index: 1;
+             box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+             text-align: center;
+         }
+         .tg-title {
+             color: #a0a0ff;
+             font-size: 16px;
+             margin-bottom: 15px;
+         }
+         .tg-buttons {
+             display: flex;
+             gap: 10px;
+             justify-content: center;
+             margin-bottom: 15px;
+         }
+         .tg-btn {
+             padding: 8px 15px;
+             background: linear-gradient(90deg, #ff3366, #7928ca);
+             border: none;
+             border-radius: 8px;
+             color: #fff;
+             font-size: 14px;
+             cursor: pointer;
+             box-shadow: 0 0 10px #ff3366;
+             transition: all 0.3s ease;
+             text-decoration: none;
+         }
+         .tg-btn:hover {
+             transform: scale(1.05);
+             box-shadow: 0 0 15px #7928ca;
+         }
+         .verify-btn {
+             padding: 10px 20px;
+             background: linear-gradient(90deg, #00ffff, #00ff9d);
+             border: none;
+             border-radius: 8px;
+             color: #000;
+             font-size: 16px;
+             font-weight: bold;
+             cursor: pointer;
+             box-shadow: 0 0 10px #00ffff;
+             transition: all 0.3s ease;
+         }
+         .verify-btn:hover {
+             transform: scale(1.05);
+             box-shadow: 0 0 15px #00ff9d;
+         }
+         .verify-result {
+             margin-top: 12px;
+             color: #00ff9d;
+             font-size: 14px;
+             text-shadow: 0 0 8px #00ff9d;
+             opacity: 0;
+             transition: opacity 0.5s ease;
+         }
+         .verify-result.show {
+             opacity: 1;
+         }
+         .tg-tip {
+             color: #a0a0ff;
+             font-size: 12px;
+             margin-top: 10px;
+         }
+         /* AI防护进度条 */
+         .ai-protect-module {
+             background: rgba(0, 20, 50, 0.6);
+             border: 1px solid #00ffff;
+             border-radius: 15px;
+             padding: 20px;
+             margin-bottom: 20px;
+             position: relative;
+             z-index: 1;
+             box-shadow: inset 0 0 15px rgba(0, 255, 255, 0.2);
+         }
+         .progress-bar {
+             width: 100%;
+             height: 30px;
+             background: rgba(0, 0, 0, 0.5);
+             border-radius: 15px;
+             overflow: hidden;
+             border: 1px solid #00ffff;
+             position: relative;
+         }
+         .progress-fill {
+             width: 100%;
+             height: 100%;
+             background: linear-gradient(90deg, #ff7f00, #00ff9d);
+             border-radius: 13px;
+             display: flex;
+             justify-content: center;
+             color: #000;
+             font-weight: bold;
+             animation: progressFlow 3s linear infinite;
+             position: relative;
+             overflow: hidden;
+         }
+         .progress-fill::after {
+             content: '';
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+             animation: progressShine 1.5s linear infinite;
+         }
+         @keyframes progressFlow {
+             0% { background-position: 0 0; }
+             100% { background-position: 200% 0; }
+         }
+         @keyframes progressShine {
+             0% { transform: translateX(-100%); }
+             100% { transform: translateX(100%); }
+         }
+         /* 底部版权 */
+         .copyright {
+             position: absolute;
+             bottom: 15px;
+             left: 0;
+             width: 100%;
+             text-align: center;
+             color: #a0a0ff;
+             font-size: 12px;
+             opacity: 0.7;
+             z-index: 1;
+         }
+         /* 粒子生成 */
+         .particle {
+             position: absolute;
+             width: 2px;
+             height: 2px;
+             background: #00ffff;
+             border-radius: 50%;
+             opacity: 0;
+             animation: particleMove linear infinite;
+         }
+     </style>
+ </head>
+ <body>
+     <div class="port-card">
+         <div class="particles" id="particles"></div>
+         <!-- 顶部头像区域 -->
+         <div class="avatar-section">
+             <div class="avatar">
+                 <!-- 替换头像只需修改此处src链接即可 -->
+                 <img src="https://b0.bdstatic.com/ugc/29qULItGkH3XzxrdXD6i-wff0ae365a76a7f3fdfa1ec5d188cc40f.jpg" alt="头像">
+             </div>
+             <h1 class="title">落花公益端口</h1>
+             <p class="status-tip">落花端口Hook防封已启动 | 高防节点稳定运行 | AI智能防护实时监测 | 全球节点秒切</p>
+         </div>
+         <!-- 基础信息模块 -->
+         <div class="info-module">
+             <div class="info-item">
+                 <span class="info-label">端口名称</span>
+                 <span class="info-value">落花公益端口</span>
+             </div>
+             <div class="info-item">
+                 <span class="info-label">领先优势</span>
+                 <span class="info-value">双适配-低延迟-高防护-Hook防封</span>
+             </div>
+             <div class="info-item">
+                 <span class="info-label">当前时间</span>
+                 <span class="info-value" id="current-time">2026-01-04 01:47:12</span>
+             </div>
+             <div class="info-item">
+                 <span class="info-label">当前状态</span>
+                 <span class="info-value status-excellent">极佳</span>
+             </div>
+         </div>
+         <!-- 延迟监测模块 -->
+         <div class="delay-module">
+             <h3 class="node-name" id="node-name">
+                 <img src="" alt="国旗" class="flag-icon" id="flag-icon">
+                 <span id="node-location">高防上海CN2</span>
+             </h3>
+             <div class="delay-value" id="delay-value">20ms</div>
+             <p class="delay-desc">实时延迟</p>
+         </div>
+         <!-- TG频道模块 -->
+         <div class="tg-module">
+             <h3 class="tg-title">官方TG频道</h3>
+             <div class="tg-buttons">
+                 <a href="https://t.me/LuohuaLink" target="_blank" class="tg-btn">@LUOHUALINK</a>
+                 <a href="https://t.me/LuohuaLink" target="_blank" class="tg-btn">@LUOHUALINK</a>
+             </div>
+             <button class="verify-btn" id="verify-btn">点击验证</button>
+             <p class="verify-result" id="verify-result">已连接服务器 - 【国家/地区】</p>
+             <p class="tg-tip">点击上方可切换连线路线</p>
+         </div>
+         <!-- AI防护进度条 -->
+         <div class="ai-protect-module">
+             <div class="progress-bar">
+                 <div class="progress-fill">刷新AI智能防护</div>
+             </div>
+         </div>
+         <!-- 底部版权 -->
+         <div class="copyright">©2025 落花公益团队</div>
+     </div>
+     <script>
+         // 全球节点数据（国家/地区+国旗+真实地区）
+         const nodeList = [
+             { country: "中国", region: "上海CN2", flag: "https://flagcdn.com/w80/cn.png" },
+             { country: "美国", region: "洛杉矶", flag: "https://flagcdn.com/w80/us.png" },
+             { country: "日本", region: "东京", flag: "https://flagcdn.com/w80/jp.png" },
+             { country: "韩国", region: "首尔", flag: "https://flagcdn.com/w80/kr.png" },
+             { country: "新加坡", region: "新加坡", flag: "https://flagcdn.com/w80/sg.png" },
+             { country: "德国", region: "法兰克福", flag: "https://flagcdn.com/w80/de.png" },
+             { country: "英国", region: "伦敦", flag: "https://flagcdn.com/w80/gb.png" },
+             { country: "法国", region: "巴黎", flag: "https://flagcdn.com/w80/fr.png" },
+             { country: "加拿大", region: "多伦多", flag: "https://flagcdn.com/w80/ca.png" },
+             { country: "澳大利亚", region: "悉尼", flag: "https://flagcdn.com/w80/au.png" }
+         ];
+         // 随机获取节点
+         let currentNode = nodeList[Math.floor(Math.random() * nodeList.length)];
+         
+         // 初始化节点信息
+         // 初始化节点信息
+         function initNode() {
+             document.getElementById('flag-icon').src = currentNode.flag;
+             document.getElementById('node-location').textContent = `高防${currentNode.country}${currentNode.region}`;
+         }
+         initNode();
+         // 实时更新时间
+         function updateTime() {
+             const now = new Date();
+             const timeStr = now.toLocaleString('zh-CN', {
+                 year: 'numeric',
+                 month: '2-digit',
+                 day: '2-digit',
+                 hour: '2-digit',
+                 minute: '2-digit',
+                 second: '2-digit'
+             }).replace(/\//g, '-');
+             document.getElementById('current-time').textContent = timeStr;
+         }
+         setInterval(updateTime, 1000);
+         updateTime();
+         // 随机延迟（50ms以内）
+         function randomDelay() {
+             const min = 10;
+             const max = 50;
+             const delay = Math.floor(Math.random() * (max - min + 1)) + min;
+             document.getElementById('delay-value').textContent = `${delay}ms`;
+         }
+         setInterval(randomDelay, 2000);
+         randomDelay();
+         // 验证连接功能
+         const verifyBtn = document.getElementById('verify-btn');
+         const verifyResult = document.getElementById('verify-result');
+         verifyBtn.addEventListener('click', () => {
+             // 验证时随机切换节点
+             currentNode = nodeList[Math.floor(Math.random() * nodeList.length)];
+             initNode();
+             // 显示验证结果
+             verifyResult.textContent = `已连接服务器 - 【${currentNode.country}·${currentNode.region}】`;
+             verifyResult.classList.add('show');
+             // 3秒后隐藏（可选）
+             setTimeout(() => {
+                 }, 3000);
+         });
+         // 生成背景粒子
+         function createParticles() {
+             const particlesContainer = document.getElementById('particles');
+             const particleCount = 60;
+             for (let i = 0; i < particleCount; i++) {
+                 const particle = document.createElement('div');
+                 particle.classList.add('particle');
+                 
+                 const x = Math.random() * 100;
+                 const y = Math.random() * 100;
+                 particle.style.left = `${x}%`;
+                 particle.style.top = `${y}%`;
+                 const duration = Math.random() * 10 + 5;
+                 particle.style.animationDuration = `${duration}s`;
+                 particle.style.opacity = Math.random() * 0.8 + 0.2;
+                 particlesContainer.appendChild(particle);
+             }
+         }
+         createParticles();
+         // 粒子移动动画
+         document.styleSheets[0].insertRule(`
+             @keyframes particleMove {
+                 0% {
+                     transform: translate(0, 0);
+                     opacity: 0;
+                 }
+                 10% {
+                     opacity: 1;
+                 }
+                 90% {
+                     opacity: 1;
+                 }
+                 100% {
+                     transform: translate(calc(Math.random() * 100px - 50px), calc(Math.random() * 100px - 50px));
+                     opacity: 0;
+                 }
+             }
+         `, document.styleSheets[0].cssRules.length);
+     </script>
+ </body>
+ </html>
+                 
+                
